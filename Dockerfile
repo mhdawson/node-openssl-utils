@@ -31,9 +31,9 @@ RUN git clone https://github.com/${REPO} node
 WORKDIR "/node"
 RUN git reset --hard 9d7895c567e8f38abfff35da1b6d6d6a0a06f9aa
 RUN git remote add upstream https://github.com/nodejs/node.git
-RUN git checkout -b openssl-update
+RUN git checkout -b openssl-update-v16x
 RUN git fetch upstream
-RUN git rebase upstream/master
+RUN git rebase upstream/v16.x
 WORKDIR "/"
 RUN git clone https://github.com/quictls/openssl
 WORKDIR "openssl"
@@ -48,7 +48,7 @@ RUN git commit -m "$COMMIT_COMMENT"
 # update the generated openssl files
 WORKDIR "/node"
 RUN make -C deps/openssl/config
-RUN git add deps/openssl/config/archs
+RUN git add deps/openssl/config
 RUN git add deps/openssl/openssl
 RUN git commit -m "$COMMIT_COMMENT_ARCH_FILES"
 
